@@ -1,8 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
 const productRouter = require('./routers/productRoutes');
-const { mostrarMensaje1, mostrarMensaje2 } = require('./modules/lib');
-
 const app = express();
 
 // middleware
