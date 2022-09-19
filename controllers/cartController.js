@@ -66,7 +66,7 @@ exports.deleteCart = catchAsync(
       });
     }
     carrito.products = carrito.products.filter((producto) => producto.idProducto !== idProducto);
-    await carritos.save();
+    await carrito.save();
     res.status(200).json({
       status: 'success',
       data: { carrito },
@@ -80,10 +80,17 @@ exports.payCart = catchAsync(async (req, res) => {
   if (!carrito) return res.status(404).json({
     status: 'Not Found',
   });
-  carrito.status = 'PAID';
-  await carrito.save();
-  res.status(200).json({
-    status: 'success',
-    data: { carrito },
-  });
+  if (carrito.products.length > 0){
+    carrito.status = 'PAID';
+    await carrito.save();
+    res.status(200).json({
+      status: 'success',
+      data: { carrito },
+    });
+  }else{
+    res.status(400).json({
+      status: 'no se puede pagar el carrito porque no selecciono un producto',
+    });
+  }
+ 
 });
