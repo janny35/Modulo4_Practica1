@@ -1,14 +1,17 @@
 const express = require("express");
 const productController = require('../controllers/productController');
+const authController = require('../controllers/authController');
 const productRouter = express.Router();
 
 // routes
 productRouter.route('/')
+  .all(authController.protect)
   .get(productController.getAllProducts)
   .post(productController.addNewProduct);
-  productRouter.route('/:id')
- .get(productController.getProductById)
- .put(productController.updateProductById)
- .delete(productController.deleteProductById);
+productRouter.route('/:id')
+  .all(authController.protect)
+  .get(productController.getProductById)
+  .put(productController.updateProductById)
+  .delete(productController.deleteProductById);
 
 module.exports = productRouter;
